@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Gen · clothes online</title>
+  <!-- Font Awesome for icons (optional but adds UX flair) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- GLOBAL RESET & DESIGN TOKENS ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1e1e2f;        /* deep urban navy */
+      --accent: #ff6b6b;         /* energetic coral for CTAs */
+      --accent-soft: #ff9f9f;
+      --light-bg: #f8f9fc;
+      --card-bg: #ffffff;
+      --text-dark: #1e1e2f;
+      --text-muted: #5e5e72;
+      --border-light: #e9ecf0;
+      --shadow-sm: 0 8px 20px rgba(0,0,0,0.02), 0 4px 8px rgba(0,0,0,0.03);
+      --shadow-hover: 0 20px 30px -10px rgba(30,30,47,0.12);
+      --radius-card: 20px;
+      --radius-btn: 40px;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --transition: all 0.2s ease;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.5;
+      padding: 0 1.5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- UTILITY & LAYOUT ---------- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ---------- HEADER / NAV (UX: clear branding + cart) ---------- */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 1.5rem 0 1rem;
+      border-bottom: 2px solid var(--border-light);
+      margin-bottom: 2rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #1e1e2f 0%, #3a3a5a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logo span {
+      color: var(--accent);
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+    }
+
+    .cart-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-btn);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+    }
+
+    .cart-icon:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-soft);
+    }
+
+    .cart-icon i {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .cart-count {
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-left: 0.2rem;
+    }
+
+    /* ---------- HERO / TAGLINE (visual storytelling) ---------- */
+    .hero {
+      background: linear-gradient(100deg, #ffffff 0%, #f2f4fa 100%);
+      border-radius: 32px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .hero-text h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      max-width: 550px;
+    }
+
+    .hero-text h1 i {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .hero-text p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin-top: 0.8rem;
+      max-width: 500px;
+    }
+
+    .hero-badge {
+      background: white;
+      padding: 1rem 2rem;
+      border-radius: 100px;
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+      color: var(--primary);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .hero-badge i {
+      color: var(--accent);
+    }
+
+    /* ---------- FILTER BAR (UX: easy sorting) ---------- */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1.5px solid var(--border-light);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius-btn);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.3px;
+    }
+
+    .filter-btn i {
+      margin-right: 6px;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 8px 16px -6px rgba(30,30,47,0.3);
+    }
+
+    .filter-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--primary);
+      background: white;
+    }
+
+    .result-count {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      background: white;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      border: 1px solid var(--border-light);
+    }
+
+    /* ---------- PRODUCT GRID (clean, spacious cards) ---------- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    /* ---------- PRODUCT CARD (UX: hover, clear CTA) ---------- */
+    .product-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0,0,0,0.02);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-soft);
+    }
+
+    .card-img {
+      position: relative;
+      background: #f0f2f8;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card-img i {
+      font-size: 6rem;
+      color: #d0d5e0;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .card-img i {
+      transform: scale(1.08);
+      color: #b8bdd0;
+    }
+
+    /* decorative "new" badge */
+    .badge-new {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.8rem;
+      border-radius: 40px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 8px rgba(255,107,107,0.2);
+    }
+
+    .card-info {
+      padding: 1.2rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .card-price {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+    }
+
+    .card-price small {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .add-to-cart {
+      margin-top: auto;
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      font-weight: 700;
+      padding: 0.7rem 0;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      letter-spacing: 0.3px;
+    }
+
+    .add-to-cart i {
+      font-size: 0.9rem;
+    }
+
+    .add-to-cart:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 8px 16px -6px rgba(30,30,47,0.3);
+    }
+
+    .add-to-cart:active {
+      transform: scale(0.97);
+    }
+
+    /* ---------- CART NOTIFICATION TOAST (UX feedback) ---------- */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: white;
+      padding: 1rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      transform: translateY(120%);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+      z-index: 999;
+      border-left: 6px solid var(--accent);
+      font-size: 1rem;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    .toast i {
+      color: var(--accent-soft);
+      font-size: 1.2rem;
+    }
+
+    /* ---------- EMPTY STATE (if filter yields no products) ---------- */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #d0d5e0;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+    }
+
+    /* ---------- FOOTER (minimal) ---------- */
+    footer {
+      text-align: center;
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links i {
+      margin: 0 8px;
+      color: var(--text-muted);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .footer-links i:hover {
+      color: var(--accent);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 700px) {
+      body { padding: 0 1rem; }
+      .hero { padding: 1.5rem; }
+      .hero-text h1 { font-size: 1.9rem; }
+      .hero-badge { display: none; }
+      .logo { font-size: 1.7rem; }
+      .filter-bar { flex-direction: column; align-items: flex-start; }
+      .product-grid { gap: 1.2rem; }
+      .toast { left: 1rem; right: 1rem; bottom: 1rem; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .cart-icon span:not(.cart-count) { display: none; }
+      .cart-icon { padding: 0.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER: New Gen + cart indicator -->
+    <header>
+      <div class="logo-area">
+        <div class="logo">NEW<span>GEN</span></div>
+        <span style="font-size: 0.8rem; background: var(--accent); color: white; padding: 0.2rem 0.7rem; border-radius: 40px; font-weight: 600;">SS'25</span>
+      </div>
+      <div class="cart-icon" id="cartButton" aria-label="Shopping cart" role="button" tabindex="0">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Cart</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </header>
+
+    <!-- HERO with brand message -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Wear the <i>future</i>.<br>Define your generation.</h1>
+        <p>Minimal, bold, and made for the now. New Gen — clothing that moves with you.</p>
+      </div>
+      <div class="hero-badge">
+        <i class="fas fa-bolt"></i> free shipping over $80
+      </div>
+    </section>
+
+    <!-- FILTER BAR: categories + count -->
+    <div class="filter-bar">
+      <div class="filter-buttons" id="filterButtons">
+        <button class="filter-btn active" data-filter="all"><i class="fas fa-layer-group"></i> All</button>
+        <button class="filter-btn" data-filter="men"><i class="fas fa-mars"></i> Men</button>
+        <button class="filter-btn" data-filter="women"><i class="fas fa-venus"></i> Women</button>
+        <button class="filter-btn" data-filter="unisex"><i class="fas fa-people-arrows"></i> Unisex</button>
+      </div>
+      <div class="result-count" id="resultCount">6 items</div>
+    </div>
+
+    <!-- PRODUCT GRID (dynamically populated by JS) -->
+    <div class="product-grid" id="productGrid">
+      <!-- JS will render cards here -->
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>© 2025 New Gen — designed for the next wave.</div>
+      <div class="footer-links">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-tiktok"></i>
+        <i class="fab fa-twitter"></i>
+      </div>
+    </footer>
+  </div>
+
+  <!-- TOAST notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Added to cart</span>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- DATA ----------
+      const products = [
+        { id: 1, name: "Oversized Hoodie", category: "unisex", price: 59.99, icon: "fa-hoodie" }, // FontAwesome doesn't have hoodie, we'll use tshirt/other fallbacks
+        { id: 2, name: "Cargo Pants", category: "men", price: 79.99, icon: "fa-person" },
+        { id: 3, name: "Cropped Tee", category: "women", price: 34.99, icon: "fa-tshirt" },
+        { id: 4, name: "Denim Jacket", category: "unisex", price: 89.99, icon: "fa-jacket" }, // fallback
+        { id: 5, name: "Pleated Skirt", category: "women", price: 49.99, icon: "fa-skirt" }, // fallback
+        { id: 6, name: "Graphic Tee", category: "men", price: 29.99, icon: "fa-tshirt" }
+      ];
+
+      // Since some icons may not exist, we use safe fallback icons via JS mapping
+      // FontAwesome free doesn't have 'hoodie' or 'jacket'. We'll use solid alternatives.
+      const iconMap = {
+        1: 'fa-tshirt',      // hoodie -> tshirt
+        2: 'fa-person',      // cargo pants -> person
+        3: 'fa-tshirt',      // cropped tee -> tshirt
+        4: 'fa-vest',        // denim jacket -> vest (close)
+        5: 'fa-person-dress',// skirt -> person-dress
+        6: 'fa-tshirt'       // graphic tee
+      };
+
+      // ---------- STATE ----------
+      let currentFilter = 'all';
+      let cart = [];  // stores product IDs (for UX demonstration)
+
+      // DOM elements
+      const productGrid = document.getElementById('productGrid');
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const resultCount = document.getElementById('resultCount');
+      const cartCountSpan = document.getElementById('cartCount');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      const cartButton = document.getElementById('cartButton');
+
+      // ---------- RENDER PRODUCTS (based on filter) ----------
+      function renderProducts() {
+        // filter products
+        const filtered = currentFilter === 'all' 
+          ? products 
+          : products.filter(p => p.category === currentFilter);
+
+        // update result count
+        resultCount.textContent = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+
+        // build HTML
+        if (filtered.length === 0) {
+          productGrid.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-tshirt"></i>
+              <h3>No products in this category</h3>
+              <p>Try another filter – more styles coming soon.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        filtered.forEach(product => {
+          // use mapped icon or fallback
+          const iconClass = iconMap[product.id] || 'fa-tshirt';
+          // determine category label for display
+          const categoryLabel = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+          // badge "new" for some products (id 4 and 5 show "new")
+          const isNew = (product.id === 4 || product.id === 5);
+          
+          html += `
+            <div class="product-card" data-id="${product.id}">
+              <div class="card-img">
+                ${isNew ? '<span class="badge-new">New</span>' : ''}
+                <i class="fas ${iconClass}"></i>
+              </div>
+              <div class="card-info">
+                <div class="card-category">${categoryLabel}</div>
+                <h3 class="card-title">${product.name}</h3>
+                <div class="card-price">$${product.price.toFixed(2)} <small>USD</small></div>
+                <button class="add-to-cart" data-id="${product.id}">
+                  <i class="fas fa-plus-circle"></i> Add to cart
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        productGrid.innerHTML = html;
+
+        // Attach event listeners to the "Add to cart" buttons
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const productId = parseInt(this.getAttribute('data-id'));
+            addToCart(productId);
+          });
+        });
+      }
+
+      // ---------- ADD TO CART (UX) ----------
+      function addToCart(productId) {
+        // Find product name for toast
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+
+        // Simulate cart: we store the id (could use array of objects for quantity, but simple count)
+        cart.push(productId);
+        
+        // Update cart counter (total items)
+        cartCountSpan.textContent = cart.length;
+
+        // Show toast with product name
+        toastMessage.textContent = `${product.name} added to cart`;
+        toast.classList.add('show');
+
+        // Optional: small animation on cart icon
+        cartButton.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          cartButton.style.transform = 'scale(1)';
+        }, 150);
+
+        // auto-hide toast after 2 seconds
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+      }
+
+      // ---------- FILTER BUTTON HANDLING ----------
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // remove active from all
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          // get filter value
+          currentFilter = this.getAttribute('data-filter');
+          
+          // re-render products
+          renderProducts();
+        });
+      });
+
+      // ---------- CART BUTTON (just a friendly alert/feedback) ----------
+      cartButton.addEventListener('click', function() {
+        if (cart.length === 0) {
+          alert('Your cart is empty. Add some New Gen pieces!');
+        } else {
+          // In a real site this would open a cart drawer. For UX we show a summary.
+          const totalItems = cart.length;
+          alert(`🛒 Your cart has ${totalItems} item${totalItems !== 1 ? 's' : ''}. Checkout coming soon.`);
+        }
+      });
+
+      // Also allow keyboard "Enter" on cart for accessibility
+      cartButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          cartButton.click();
+        }
+      });
+
+      // ---------- INITIAL RENDER ----------
+      renderProducts();
+
+      // (optional) add a tiny extra UX: hover effect on card img using icon, nothing else needed.
+      // Ensure that any dynamic content doesn't break icons; we used fontawesome.
+
+      // Fix: if any FontAwesome icon is missing, it shows a blank square. But we used known icons.
+      // The fallback icons (tshirt, person, vest, person-dress) are all valid in FA6.
+    })();
+  </script>
+  <!-- Add a tiny note: "fa-vest" exists in FA6, also "fa-person-dress" is present -->
+</body>
+</html>
